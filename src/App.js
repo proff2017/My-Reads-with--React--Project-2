@@ -10,7 +10,7 @@ import { Route, Link } from 'react-router-dom';
 class BooksApp extends React.Component {
   state = {
     books: [],
-    searchedBooks: [],
+    foundBooks: [],
     isLoading: true,
   }
 
@@ -26,64 +26,66 @@ class BooksApp extends React.Component {
  	this.fetch();
  }
 
-  search = (query) => {
-    if (query.length !== 0) {
-      BooksAPI.search(query).then( searchedBooks => {
-        let searchResult = [];
-          for (const serachedBook of searchedBooks) {
+
+ newUpdate = (newBook, shelf) => {
+  BooksAPI.update(newBook, shelf).then( response => {
+    newBook.shelf = shelf
+  })
+
+  let newBooks = this.state.books.filter( book => book.id !== newBook.id )
+  newBooks.push(newBook);
+  this.setState({ books: newBooks })
+   this.setState({ foundBooks: [] })
+  this.componentDidMount()
+}
+
+  search = (inserted) => {
+    if (inserted.length !== 0) {
+      BooksAPI.search(inserted).then( foundBooks => {
+        let results = [];
+          for (const foundBook of foundBooks) {
             for (const book of this.state.books) {
-                if (serachedBook.id === book.id) {
-                  serachedBook.shelf = book.shelf
+                if (foundBook.id === book.id) {
+                  foundBook.shelf = book.shelf
                 }
             }
-            searchResult.push(serachedBook)
+            results.push(foundBooks)
           }
-          return searchResult
-      }).then((searchedBooks) => {
-        this.setState((prevState) => ({ searchedBooks }))
-      }).catch(searchedBooks => this.setState({ searchedBooks: [] }))
+          return results
+      }).then((foundBooks) => {
+        this.setState((prevState) => ({ foundBooks }))
+      }).catch(foundBooks => this.setState({ foundBooks: [] }))
     } else {
-      this.setState({ searchedBooks: [] })
+      this.setState({ foundBooks: [] })
     }
   }
   
-  shelfUpdate = (addedbook, shelf) => {
-    BooksAPI.update(addedbook, shelf).then( response => {
-      addedbook.shelf = shelf
-    })
-
-    let addedBooks = this.state.books.filter( book => book.id !== addedbook.id )
-    addedBooks.push(addedbook);
-    this.setState({ books: addedBooks })
-   	this.setState({ searchedBooks: [] })
-    this.componentDidMount()
-  }
-
+  
   render() {
     return (
       <div className="app">
         <Route exact path="/" render={ () => (
-          <div className="list-books">
-            <div className="list-books-title">
-              <h1>MyReads</h1>
+          <div className="list">
+            <div className="list-title">
+              <h1>My Reads</h1>
             </div>
-            <div className="list-books-content">
+            <div className="list-books">
                 <Shelf
                   books={this.state.books}
-                  shelfUpdate={this.shelfUpdate}
+                  newUpdate={this.newUpdate}
                 />
             </div>
-            <div className="open-search">
-              <Link to="/search">Add a book</Link>
+            <div>
+              <Link to="/search">New book</Link>
             </div>
           </div>
         )} />
 
         <Route path="/search" render={ () => (
           <Search
-            searchedBooks={this.state.searchedBooks}
+            foundBooks={this.state.foundBooks}
             search={this.search}
-            shelfUpdate={this.shelfUpdate}
+            newUpdate={this.newUpdate}
           />
         )}
         />

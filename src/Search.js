@@ -1,29 +1,29 @@
 import React from 'react';
-import Book from './Book';
 import { Link } from 'react-router-dom';
+import Book from './Book';
 
 class Search extends React.Component {
   render() {
     const { search } = this.props;
     return (
-      <div className="search-books">
-        <div className="search-books-bar">
-          <Link className="close-search" to="/">Close</Link>
-          <div className="search-books-input-wrapper">
+      <div className="search">
+        <div className="search-bar">
+          <Link to="/">Close</Link>
+          <div className="search-input">
             <input
               onChange={ event => search(event.target.value)}
               type="text"
-              placeholder="Search by title or author"/>
+              placeholder="Find your book"/>
           </div>
         </div>
-        <div className="search-books-results">
-          <ol className="books-grid">
-            {this.props.searchedBooks.length > 0 ? (
-              this.props.searchedBooks.map((book) => (
+        <div className="results">
+          <ol className="booksGrid">
+            {this.props.foundBooks.length > 0 ? (
+              this.props.foundBooks.map((book) => (
               <li key={book.id}>
                 <Book
                   book={ book }
-                  shelfUpdate={this.props.shelfUpdate}
+                  newUpdate={this.props.newUpdate}
                 />
               </li>
           ))) : <li></li> }

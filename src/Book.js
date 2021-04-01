@@ -5,21 +5,21 @@ class Book extends React.Component {
 
   render() {
     const { book } = this.props;
-    const image = book.imageLinks && book.imageLinks.thumbnail;
-    const author = book.authors ? book.authors : "Unknown";
+    const author = book.authors ? book.authors : "NotFound";
+    const picture = book.imageLinks && book.imageLinks.thumbnail;
     return (
         <div className="book">
-          <div className="book-top">
-          <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${image})` }}></div>
+          <div>
+          <div className="cover" style={{ width: 128, height: 193, backgroundImage: `url(${picture})` }}></div>
             <Selector
-              shelfUpdate={this.props.shelfUpdate}
+              newUpdate={this.props.newUpdate}
               book={ book }
               books={ this.props.books }
               selectorCheck={this.props.selectorCheck}
             />
           </div>
-          <div className="book-title">{book.title}</div>
-          <div className="book-authors">{author}</div>
+          <div className="Title">{book.title}</div>
+          <div className="The-Author">{author}</div>
         </div>
     )
   }

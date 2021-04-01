@@ -4,22 +4,22 @@ import Book from './Book';
 class Shelf extends React.Component {
   render() {
     const { books } = this.props;
-    const currentlyReading = books.filter( book => book.shelf === "currentlyReading");
-    const wantToRead = books.filter(book => book.shelf === "wantToRead");
-    const read = books.filter(book => book.shelf === "read");
+    const gonnaRead = books.filter(book => book.shelf === "gonnaRead");
+    const ReadingRN = books.filter( book => book.shelf === "ReadingRN");
+    const dReading = books.filter(book => book.shelf === "dReading");
 
     return (
       <div>
-        <div className="bookshelf">
-          <h2 className="bookshelf-title">Currently reading</h2>
-          <div className="bookshelf-books">
-            <ol className="books-grid">
-              {currentlyReading.map( book => (
+        <div className="shelf">
+          <h1 className="shelf-title">Will read it</h1>
+          <div className="books">
+            <ol className="booksGrid">
+              {gonnaRead.map( book => (
                 <li key={book.id}>
                   <Book
                     books={ this.props.books }
                     book={ book }
-                    shelfUpdate={this.props.shelfUpdate}
+                    newUpdate={this.props.newUpdate}
                   />
                 </li>
               ))
@@ -27,16 +27,16 @@ class Shelf extends React.Component {
             </ol>
           </div>
         </div>
-        <div className="bookshelf">
-          <h2 className="bookshelf-title">Want to read</h2>
-          <div className="bookshelf-books">
-            <ol className="books-grid">
-              {wantToRead.map( book => (
+        <div className="shelf">
+          <h2 className="shelf-title">Reading right now</h2>
+          <div className="books">
+            <ol className="booksGrid">
+              {ReadingRN.map( book => (
                 <li key={book.id}>
                   <Book
                     books={ this.props.books }
                     book={ book }
-                    shelfUpdate={this.props.shelfUpdate}
+                    newUpdate={this.props.newUpdate}
                   />
                 </li>
               ))
@@ -44,16 +44,16 @@ class Shelf extends React.Component {
             </ol>
           </div>
         </div>
-        <div className="bookshelf">
-          <h2 className="bookshelf-title">Read</h2>
-          <div className="bookshelf-books">
-            <ol className="books-grid">
-              {read.map( book => (
+        <div className="shelf">
+          <h3 className="shelf-title">Done reading</h3>
+          <div className="books">
+            <ol className="bookGrid">
+              {dReading.map( book => (
                 <li key={book.id}>
                   <Book
                     books={ this.props.books }
                     book={ book }
-                    shelfUpdate={this.props.shelfUpdate}
+                    newUpdate={this.props.newUpdate}
                   />
                 </li>
               ))

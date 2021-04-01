@@ -2,18 +2,17 @@ import React from 'react';
 
 class Selector extends React.Component {
   render() {
-    const { shelfUpdate, book } = this.props;
+    const { newUpdate, book } = this.props;
 
     return (
-      <div className="book-shelf-changer">
+      <div className="catogery">
         <select
           value={book.shelf}
-          onChange={(event) => shelfUpdate(book, event.target.value)}
+          onChange={(event) => newUpdate(book, event.target.value)}
         >
-          <option value="none" disabled>Move to...</option>
-          <option value="currentlyReading">Currently Reading</option>
-          <option value="wantToRead">Want to Read</option>
-          <option value="read">Read</option>
+          <option value="gonnaRead">Will read it</option>
+          <option value="ReadingRN">Reading Right Now</option>
+          <option value="dReading">Read</option>
           <option value="none" selected>None</option>
         </select>
       </div>
